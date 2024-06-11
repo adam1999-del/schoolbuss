@@ -1,0 +1,146 @@
+{% extends './admin_base.html' %} {% load static %} {% block content %}
+
+<!-- Simple Datatable start -->
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="title">
+        <h4>Dashbord</h4>
+      </div>
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'school:home' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+           Routes
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="col-md-6 col-sm-12 text-right">
+      <div class="card-box mb-0">
+        <p class=" float-right">
+          <a class="btn btn-outline-primary btn-block-sm mb-0" id="add-route-btn" >Add Route</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div class="card-box mb-30">
+        <div class="pd-20">
+          <h4 class="text-blue h4">Route Data</h4>
+        </div>
+        <div class="pb-20">
+          <table id="route-table" class="table stripe hover nowrap">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Start Point</th>
+                <th>End Point</th>
+                <th>Buss</th>
+                <th class="datatable-nosort">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for route in routes %}
+              <tr>
+                <td class="table-plus">{{ route.name }}</td>
+                <td>{{ route.starting_point }}</td>
+                <td>{{ route.ending_point }}</td>
+                {% if route.bus.number %}
+                <td>{{ route.bus.number }}</td>
+                {% else %}
+                <td> No Buss </td>
+                {% endif %}
+                
+                <td>
+                  <div class="dropdown">
+                    <a
+                      class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
+                      href="#"
+                      role="button"
+                      data-toggle="dropdown"
+                    >
+                      <i class="dw dw-more"></i>
+                    </a>
+                    <div
+                      class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
+                    >
+                     
+                      <a class="dropdown-item" href="#"
+                        ><i class="dw dw-edit2"></i> Edit</a
+                      >
+                      <a class="dropdown-item" id="delete-route" data-route-id="{{ route.id }}" href="#"
+                        ><i class="dw dw-delete-3"></i> Delete</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+
+<div class="section mt-4 mb-5 text-center mr-2">
+  <div class="modal fade" id="add_route_details" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document" >
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Register Route</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id='route_detail_form' method="POST" action='{% url "school:register_route" %}'>
+            {% csrf_token %}
+            <div class="row form-row">
+              <div class="col-12 col-sm-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                  
+                  <input type="text" name="name" class="form-control" placeholder="Route Name" required>
+                </div>
+              </div>
+              <div class="col-12 col-sm-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                  
+                  <input type="text" name="start" class="form-control" placeholder="Start Point" required>
+                </div>
+              </div>
+              <div class="col-12 col-sm-12 col-lg-6 col-md-6">
+                <div class="form-group">
+                  
+                  <input type="text" name="end" class="form-control" placeholder="Ending Point" required>
+                </div>
+              </div>
+              
+              <div class="col-12 col-sm-12 col-lg-12 col-md-12">
+                <div class="form-group">
+                  
+                  <select name="buss" class="form-control" id="buss" required>
+                    <option value="">Select Buss</option>
+                  </select>
+                </div>
+              </div>
+               
+              
+            </div>
+            
+            <button type="submit" class="btn btn-outline-secondary mb-3 mt-4 btn-block">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

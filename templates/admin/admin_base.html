@@ -1,0 +1,428 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Basic Page Info -->
+		<meta charset="utf-8" />
+		<title>{{title}}</title>
+
+		<!-- Site favicon -->
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="{% static 'vendors/images/apple-touch-icon.png' %}"
+		/>
+		
+		<!-- Mobile Specific Metas -->
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1"
+		/>
+
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="{% static 'vendors/styles/core.css' %}" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static 'vendors/styles/icon-font.min.css' %}"
+		/>
+		<link rel="stylesheet" type="text/css" href="{% static 'vendors/styles/style.css' %}" />
+        <link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static 'vendors/styles/icon-font.min.css' %}"
+		/>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static 'src/plugins/datatables/css/dataTables.bootstrap4.min.css' %}"
+		/>
+
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{% static 'src/plugins/datatables/css/responsive.bootstrap4.min.css' %}"
+		/>
+
+	
+	</head>
+	<body>
+		
+
+		<div class="header">
+			<div class="header-left">
+				<div class="menu-icon bi bi-list"></div>
+				<div
+					class="search-toggle-icon bi bi-search"
+					data-toggle="header_search"
+				>
+            </div>
+				
+			</div>
+			<div class="header-right">
+				<div class="dashboard-setting user-notification">
+					{% comment %} <div class="dropdown">
+						<a
+							class="dropdown-toggle no-arrow"
+							href="javascript:;"
+							data-toggle="right-sidebar"
+						>
+							<i class="dw dw-settings2"></i>
+						</a>
+					</div> {% endcomment %}
+				</div>
+				
+				<div class="user-info-dropdown">
+					<div class="dropdown">
+						<a
+							class="dropdown-toggle"
+							href="#"
+							role="button"
+							data-toggle="dropdown"
+						>
+							<span class="user-icon">
+								<img src="{% static 'vendors/images/bus.png' %}" alt="" />
+							</span>
+							<span class="user-name">{{ request.user }}</span>
+						</a>
+						<div
+							class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
+						>
+							<a class="dropdown-item" href="#"
+								><i class="dw dw-user1"></i> Profile</a
+							>
+							
+							
+							<a class="dropdown-item logout-span" id="logout-span"  style="cursor: pointer;"
+								><i class="dw dw-logout"></i> Log Out</a
+							>
+
+                            <!-- Hidden form for logout -->
+                            <form id="logout-form" method="POST" action="{% url 'school:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item has-icon text-danger" style="display: none;">
+                                   
+                                </button>
+                            </form>
+
+
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="right-sidebar">
+			<div class="sidebar-title">
+				<h3 class="weight-600 font-16 text-blue">
+					Layout Settings
+					<span class="btn-block font-weight-400 font-12"
+						>User Interface Settings</span
+					>
+				</h3>
+				<div class="close-sidebar" data-toggle="right-sidebar-close">
+					<i class="icon-copy ion-close-round"></i>
+				</div>
+			</div>
+			<div class="right-sidebar-body customscroll">
+				<div class="right-sidebar-body-content">
+					<h4 class="weight-600 font-18 pb-10">Header Background</h4>
+					<div class="sidebar-btn-group pb-30 mb-10">
+						<a
+							href="javascript:void(0);"
+							class="btn btn-outline-primary header-white active"
+							>White</a
+						>
+						<a
+							href="javascript:void(0);"
+							class="btn btn-outline-primary header-dark"
+							>Dark</a
+						>
+					</div>
+
+					<h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
+					<div class="sidebar-btn-group pb-30 mb-10">
+						<a
+							href="javascript:void(0);"
+							class="btn btn-outline-primary sidebar-light"
+							>White</a
+						>
+						<a
+							href="javascript:void(0);"
+							class="btn btn-outline-primary sidebar-dark active"
+							>Dark</a
+						>
+					</div>
+
+					<h4 class="weight-600 font-18 pb-10">Menu Dropdown Icon</h4>
+					<div class="sidebar-radio-group pb-10 mb-10">
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebaricon-1"
+								name="menu-dropdown-icon"
+								class="custom-control-input"
+								value="icon-style-1"
+								checked=""
+							/>
+							<label class="custom-control-label" for="sidebaricon-1"
+								><i class="fa fa-angle-down"></i
+							></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebaricon-2"
+								name="menu-dropdown-icon"
+								class="custom-control-input"
+								value="icon-style-2"
+							/>
+							<label class="custom-control-label" for="sidebaricon-2"
+								><i class="ion-plus-round"></i
+							></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebaricon-3"
+								name="menu-dropdown-icon"
+								class="custom-control-input"
+								value="icon-style-3"
+							/>
+							<label class="custom-control-label" for="sidebaricon-3"
+								><i class="fa fa-angle-double-right"></i
+							></label>
+						</div>
+					</div>
+
+					<h4 class="weight-600 font-18 pb-10">Menu List Icon</h4>
+					<div class="sidebar-radio-group pb-30 mb-10">
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebariconlist-1"
+								name="menu-list-icon"
+								class="custom-control-input"
+								value="icon-list-style-1"
+								checked=""
+							/>
+							<label class="custom-control-label" for="sidebariconlist-1"
+								><i class="ion-minus-round"></i
+							></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebariconlist-2"
+								name="menu-list-icon"
+								class="custom-control-input"
+								value="icon-list-style-2"
+							/>
+							<label class="custom-control-label" for="sidebariconlist-2"
+								><i class="fa fa-circle-o" aria-hidden="true"></i
+							></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebariconlist-3"
+								name="menu-list-icon"
+								class="custom-control-input"
+								value="icon-list-style-3"
+							/>
+							<label class="custom-control-label" for="sidebariconlist-3"
+								><i class="dw dw-check"></i
+							></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebariconlist-4"
+								name="menu-list-icon"
+								class="custom-control-input"
+								value="icon-list-style-4"
+								checked=""
+							/>
+							<label class="custom-control-label" for="sidebariconlist-4"
+								><i class="icon-copy dw dw-next-2"></i
+							></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebariconlist-5"
+								name="menu-list-icon"
+								class="custom-control-input"
+								value="icon-list-style-5"
+							/>
+							<label class="custom-control-label" for="sidebariconlist-5"
+								><i class="dw dw-fast-forward-1"></i
+							></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input
+								type="radio"
+								id="sidebariconlist-6"
+								name="menu-list-icon"
+								class="custom-control-input"
+								value="icon-list-style-6"
+							/>
+							<label class="custom-control-label" for="sidebariconlist-6"
+								><i class="dw dw-next"></i
+							></label>
+						</div>
+					</div>
+
+					<div class="reset-options pt-30 text-center">
+						<button class="btn btn-danger" id="reset-settings">
+							Reset Settings
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="left-side-bar">
+			<div class="brand-logo">
+				<a href="{% url 'school:home' %}">
+					 <h5 class="text-dark text-center mt-2">SBMS | System</h5>
+					
+				</a>
+				<div class="close-sidebar" data-toggle="left-sidebar-close">
+					<i class="ion-close-round"></i>
+				</div>
+			</div>
+			<div class="menu-block customscroll">
+				<div class="sidebar-menu">
+					<ul id="accordion-menu">
+						<li class="dropdown">
+							<a href="{% url 'school:home' %}" class="dropdown-toggle no-arrow">
+								<span class="micon bi bi-house"></span
+								><span class="mtext">Home</span>
+							</a>
+							
+						</li>
+						
+						<li class="dropdown">
+							<a href="{% url 'school:students' %}" class="dropdown-toggle no-arrow">
+								<span > <i class="micon fa fa-users"></i> </span
+								><span class="mtext">Students</span>
+							</a>
+							
+						</li>
+
+						<li class="dropdown">
+							<a href="{% url 'school:supervisor' %}" class="dropdown-toggle no-arrow">
+								<span> <i class="micon fa fa-user "></i> </span
+								><span class="mtext">Patron/Matron</span>
+							</a>
+							
+						</li>
+						<li>
+							<a href="{% url 'school:route' %}" class="dropdown-toggle no-arrow">
+								<span class="micon bi bi-command"></span
+								><span class="mtext">Routes</span>
+							</a>
+						</li>
+						
+						<li class="dropdown">
+							<a href="{% url 'school:buss' %}" class="dropdown-toggle no-arrow">
+								<span> <i class="micon fa fa-bus "></i> </span
+								><span class="mtext">Bus</span>
+							</a>
+							
+						</li>
+
+						<li>
+							<div class="dropdown-divider"></div>
+						</li>
+
+						<li class="dropdown">
+							<a href="{% url 'school:management' %}" class="dropdown-toggle no-arrow">
+								<span > <i class="micon fa fa-cogs"></i> </span
+								><span class="mtext">Managements</span>
+							</a>
+							
+						</li>
+						
+						
+						<li>
+							<div class="dropdown-divider"></div>
+						</li>
+						<li>
+							<div class="sidebar-small-cap"></div>
+						</li>
+						<li>
+							<a href="#" class="dropdown-toggle no-arrow logout-span2 " id="logout-span2"  style="cursor: pointer;" >
+								<span  ><i class="micon fa fa-power-off text-danger"></i></spna>
+								<span class="mtext  ">Logout</span>
+							</a>
+						
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="mobile-menu-overlay"></div>
+
+		<div class="main-container">
+			
+					
+                    {% block content %}
+
+                             
+
+                    {% endblock %}
+					
+
+				
+				
+			
+            
+		</div>
+		
+
+		
+		<script src="{% static 'src/scripts/jquery.min.js' %}"></script>
+		<!-- js -->
+		<script src="{% static 'vendors/scripts/admin.js' %}"></script>
+		<script src="{% static 'vendors/scripts/core.js' %}"></script>
+		<script src="{% static 'vendors/scripts/script.min.js' %}"></script>
+		
+		<script src="{% static 'vendors/scripts/process.js' %}"></script>
+		<script src="{% static 'vendors/scripts/layout-settings.js' %}"></script>
+		<script src="{% static 'src/plugins/apexcharts/apexcharts.min.js' %}"></script>
+		<script src="{% static 'src/plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+		<script src="{% static 'src/plugins/datatables/js/dataTables.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'src/plugins/datatables/js/dataTables.responsive.min.js' %}"></script>
+		<script src="{% static 'src/plugins/datatables/js/responsive.bootstrap4.min.js' %}"></script>
+		<script src="{% static 'vendors/scripts/dashboard3.js' %}"></script>
+
+
+		<!-- add sweet alert js & css in footer -->
+		<script src="{% static 'src/plugins/sweetalert2/sweetalert2.all.js' %}"></script>
+		<script src="{% static 'src/plugins/sweetalert2/sweet-alert.init.js' %}"></script>
+		<!-- Google Tag Manager (noscript) -->
+
+		<script src="{% static 'vendors/scripts/datatable-setting.js' %}"></script>
+        
+		<script>
+			// Add event listener to the first element with the class 'logout-span'
+			document.getElementsByClassName('logout-span')[0].addEventListener('click', function() {
+				// Trigger form submission when span is clicked
+				document.getElementById('logout-form').submit();
+			});
+
+			document.getElementsByClassName('logout-span2')[0].addEventListener('click', function() {
+				// Trigger form submission when span is clicked
+				document.getElementById('logout-form').submit();
+			});
+			
+		</script>
+		
+		
+	</body>
+</html>

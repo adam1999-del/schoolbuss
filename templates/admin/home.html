@@ -1,0 +1,146 @@
+{% extends './admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header">
+    <div class="row">
+      <div class="col-md-6 col-sm-12">
+        <div class="title">
+          <h4>Dashbord</h4>
+        </div>
+        <nav aria-label="breadcrumb" role="navigation">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'school:home' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+             Home
+            </li>
+          </ol>
+        </nav>
+      </div>
+      
+    </div>
+  </div>
+
+<div class="xs-pd-20-10 pd-ltr-20">
+    
+    <div class="row pb-10">
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+            <div class="card-box height-100-p widget-style3">
+                <div class="d-flex flex-wrap">
+                    <div class="widget-data">
+                        <div class="weight-700 font-24 text-dark">{{ all_drivers }}</div>
+                        <div class="font-14 text-secondary weight-500">
+                            Drivers
+                        </div>
+                    </div>
+                    <div class="widget-icon">
+                        <div class="icon" data-color="#00eccf">
+                            <i class="icon-copy dw dw-user1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+            <div class="card-box height-100-p widget-style3">
+                <div class="d-flex flex-wrap">
+                    <div class="widget-data">
+                        <div class="weight-700 font-24 text-dark">{{ all_student }}</div>
+                        <div class="font-14 text-secondary weight-500">
+                            Students
+                        </div>
+                    </div>
+                    <div class="widget-icon">
+                        <div class="icon" data-color="#ff5b5b">
+                            <i class="icon-copy dw dw-user1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+            <div class="card-box height-100-p widget-style3">
+                <div class="d-flex flex-wrap">
+                    <div class="widget-data">
+                        <div class="weight-700 font-24 text-dark">{{ all_matrons }}</div>
+                        <div class="font-14 text-secondary weight-500">
+                            Matron/Patron
+                        </div>
+                    </div>
+                    <div class="widget-icon">
+                        <div class="icon">
+                            <i
+                                class="icon-copy fa fa-stethoscope"
+                                aria-hidden="true"
+                            ></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+            <div class="card-box height-100-p widget-style3">
+                <div class="d-flex flex-wrap">
+                    <div class="widget-data">
+                        <div class="weight-700 font-24 text-dark">{{ all_user }}</div>
+                        <div class="font-14 text-secondary weight-500">All Users</div>
+                    </div>
+                    <div class="widget-icon">
+                        <div class="icon" data-color="#09cc06">
+                            <i class="icon-copy dw dw-user1"></i>
+                            <i class="icon-copy dw dw-user1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-box pb-10">
+        <div class="h5 pd-20 mb-0">Driver's List</div>
+        <table id="driver-table" class=" table nowrap">
+            <thead>
+                <tr>
+                    <th class="table-plus">Name</th>
+                    <th>Gender</th>
+                    <th class="datatable-nosort">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for driver in drivers %}
+                <tr>
+                    <td class="table-plus">
+                        <div class="name-avatar d-flex align-items-center">
+                            
+                            <div class="txt">
+                                <div class="weight-600">{{ driver.first_name}} {{ driver.last_name}}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ driver.driver.gender }}</td>
+                    <td class="text-center mx-auto" >
+                        <div class="table-actions">
+                            <a href="{% url 'school:profile' user_id=driver.id %}" data-color="#265ed7"
+                                ><i class="icon-copy dw dw-edit2"></i
+                            ></a>
+                            <a href="#" id="delete-driver" data-driver-id="{{ driver.id }}" data-color="#e95959"
+                                ><i class="icon-copy dw dw-delete-3"></i
+                            ></a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+               
+            </tbody>
+        </table>
+    </div>
+
+   
+</div>
+
+{% endblock %} 

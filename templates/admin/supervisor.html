@@ -1,0 +1,94 @@
+{% extends './admin_base.html' %} {% load static %} {% block content %}
+
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="title">
+        <h4>Dashbord</h4>
+      </div>
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'school:home' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            Matron/Patron
+          </li>
+        </ol>
+      </nav>
+    </div>
+    <div class="col-md-6 col-sm-12 text-right">
+        <button
+          type="button"
+          class="btn btn-secondary margin-5"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Total Maton/Patron"
+        >
+           {{ all_matrons }}
+        </button>
+    </div>
+  </div>
+</div>
+
+<div class="card-box mb-30 mt-4">
+  <div class="pd-20 mt-4">
+    <h4 class="text-dark h4">Matron/Patron List</h4>
+  </div>
+  <div class="pb-20 mt-4">
+    <table id="matrons" class="table stripe hover nowrap">
+      <thead>
+        <tr>
+          <th class="table-plus datatable-nosort">FirstName</th>
+          <th>LastName</th>
+          <th>Address</th>
+          <th>Roll Number</th>
+          <th class="datatable-nosort">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for matron in matrons %}
+        <tr>
+          <td class="table-plus">{{ matron.first_name }}</td>
+          <td>{{ matron.last_name }}</td>
+          {% if matron.patron.address %}
+          <td>{{ matron.patron.address }}</td>
+          {% else %}
+          <td class="text-danger">No Address</td>
+          {% endif %}
+          {% if matron.patron.roll_number  %}
+          <td>{{ matron.patron.roll_number }}</td>
+          {% else %}
+          <td class="text-danger " >Uncomplete Registration</td>
+          {% endif %}
+          <td>
+            <div class="dropdown">
+              <a
+                class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
+                href="#"
+                role="button"
+                data-toggle="dropdown"
+              >
+                <i class="dw dw-more"></i>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
+              >
+                <a class="dropdown-item" href="{% url 'school:patron_profile' patron_id=matron.id %}"
+                  ><i class="dw dw-eye"></i> View</a
+                >
+                
+                <a class="dropdown-item" id="delete-patron" data-patron-id="{{ matron.id }}" href="#"
+                  ><i class="dw dw-delete-3"></i> Delete</a
+                >
+              </div>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+{% extends './admin_base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="page-header">
+	<div class="row">
+	  <div class="col-md-6 col-sm-12">
+		<div class="title">
+		  <h4>Dashbord</h4>
+		</div>
+		<nav aria-label="breadcrumb" role="navigation">
+		  <ol class="breadcrumb">
+			<li class="breadcrumb-item">
+			  <a href="{% url 'school:home' %}">Home</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+			 Bus
+			</li>
+		  </ol>
+		</nav>
+	  </div>
+	  <div class="col-md-6 col-sm-12 text-right">
+		<div class="card-box mb-0">
+		  <p class=" float-right">
+			<a id="add-bus-btn" class="btn btn-outline-primary btn-block-sm mb-0">Add Bus</a>
+		  </p>
+		</div>
+	  </div>
+	</div>
+  </div>
+               <!-- multiple select row Datatable start -->
+					<div class="card-box mb-30">
+						<div class="pd-20">
+							<h4 class="text-blue h4">School Bus</h4>
+						</div>
+						<div class="pb-20">
+							<table id="school-bus" class=" table hover multiple-select-row nowrap">
+								<thead>
+									<tr>
+										<th class="table-plus datatable-nosort">Number</th>
+										<th>Driver</th>
+										<th>Address</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+                                    {% for  bus in buss %}
+									<tr>
+										<td class="table-plus">{{ bus.number }}</td>
+										<td>
+                                            {% if bus.driver %}
+                                            {{ bus.driver.first_name }} {{ bus.driver.last_name }}
+                                            {% else %}
+                                            <p class="text-center">No Driver</p>
+                                            {% endif %}
+                                        </td>
+										
+										<td>{{ bus.driver.driver.location }}</td>
+										
+										<td class="text-center mx-auto">
+											 <a href="#" id="delete-bus" data-bus-id="{{ bus.id }}"  class="" rel="noopener noreferrer"> <i class="fa fa-trash text-danger"></i> </a>
+										</td>
+									</tr>
+                                    {% endfor %}
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- multiple select row Datatable End -->
+
+                    <!-- MODAL SECTION -->
+
+					<div class="section mt-4 mb-5 text-center mr-2">
+						<div class="modal fade" id="add_bus_details" aria-hidden="true" role="dialog">
+							<div class="modal-dialog modal-dialog-centered" role="document" >
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Register Bus</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<form id='bus_detail_form' method="POST" action='{% url "school:register_bus" %}'>
+											{% csrf_token %}
+											<div class="row form-row">
+												<div class="col-12 col-sm-12 col-lg-12 col-md-12">
+													<div class="form-group">
+														
+														<input type="text" name="number" class="form-control" placeholder="Buss Number" required>
+													</div>
+												</div>
+												
+												<div class="col-12 col-sm-12 col-lg-12 col-md-12">
+													<div class="form-group">
+														
+														<select name="driver" class="form-control" id="drivers" required>
+															<option value="">Select Driver</option>
+														</select>
+													</div>
+												</div>
+											   
+												
+											</div>
+											
+											<button type="submit" class="btn btn-outline-secondary mb-3 mt-4 btn-block">Save Changes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+{% endblock %}
